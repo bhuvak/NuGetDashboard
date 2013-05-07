@@ -1,0 +1,52 @@
+﻿@using NuGetDashboard.Models
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@model IEnumerable<SupportRequestViewModel>
+
+@{
+    ViewBag.Title = "Support Requests";
+}
+
+<table>
+    <tbody>
+    <tr>
+        <th>
+         Id
+        </th>
+        <th>
+         Title
+        </th>
+        <th>
+         Date Created
+        </th>
+        <th>
+        State
+        </th>
+        <th>
+        Edit
+        </th>
+    </tr>
+    @foreach( SupportRequestViewModel request in @Model)
+    {
+        <tr>
+            <td>
+               <a href="@request.Url" >@request.Id </a>
+            </td>
+             <td>
+                @request.Title
+            </td>
+             <td>
+                @request.DateCreated
+            </td>
+             <td>
+                @request.Status
+            </td>
+            <td>
+                @Html.ActionLink("Edit Issue", "Edit", new { id = @request.Id });
+            </td>
+        </tr>
+    }
+  </tbody>
+</table>

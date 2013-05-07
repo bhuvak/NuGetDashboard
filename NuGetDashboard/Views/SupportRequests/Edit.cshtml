@@ -1,0 +1,22 @@
+﻿@using NuGetDashboard.Models
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@model SupportRequestViewModel
+
+<h2>@Model.Title</h2>
+ @using (Html.BeginForm("Edit", "SupportRequests",FormMethod.Post))
+ {
+    <fieldset>
+        <legend>Update Issue # @Model.Id</legend>
+        @Html.HiddenFor(model => model.Id)        
+        <p>History : <textarea name="Details" id="Details" rows="5" cols="200" readonly="readonly">@Model.History</textarea> </p>        
+        <p>Comment : <textarea name="Comment" id="Comment" rows="7" cols="200"> </textarea> </p>        
+        <p><input type="submit" value="Save" />  </p>       
+    </fieldset>
+  }
+
+<div>
+    @Html.ActionLink("Back to Issues", "Index")
+</div>

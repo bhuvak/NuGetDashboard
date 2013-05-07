@@ -1,0 +1,58 @@
+﻿@using NuGetDashboard.Models
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@model IEnumerable<PingdomCheckViewModel>
+
+<table>
+    <tbody>
+    <tr>
+        <th>
+         Pingdom Checks
+        </th>
+        <th>
+         Status
+        </th>
+        <th>
+         Current Response time
+        </th>
+        <th>
+         Last Downtime
+        </th>
+        <th>
+         Monthly ResponseTime
+        </th>
+        <th>
+         Monthly Uptime
+        </th>
+    </tr>
+    @foreach( PingdomCheckViewModel pingdomcheck in @Model)
+    {
+        <tr>
+            <td>
+                @pingdomcheck.Name
+            </td>
+             <td>
+                @pingdomcheck.Status
+            </td>
+             <td>
+                @pingdomcheck.LastResponseTime ms
+            </td>
+            <td>
+                @pingdomcheck.LastErrorTime
+            </td>
+            <td>
+                @pingdomcheck.AvgResponseTime ms
+            </td>
+            <td>
+                @pingdomcheck.totalUpTime %
+            </td>
+        </tr>
+    }
+  </tbody>
+</table>
+<br />
+<br />
+<div >@Html.Action("PartialAvgResponse","PingdomChecks")</div>
+

@@ -1,0 +1,9 @@
+﻿@using NuGetDashboard.Models
+@model IEnumerable<NuGetDashboard.Models.PackagesViewModel>
+
+<Ul>
+    @foreach( PackagesViewModel package in @Model)    
+    {         
+      <li><a href="@package.GalleryUrl">@package.Id</a></li>                                        
+    }
+</Ul>

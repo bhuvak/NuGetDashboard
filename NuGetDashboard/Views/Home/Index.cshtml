@@ -1,0 +1,67 @@
+﻿
+<!-- scripts to show the Twitter Widget -->
+<script src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e72e9371502bc94" type="text/javascript"></script>
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>  
+
+
+<div style="height:300px; width:350px; float:left; margin-right:5px">@Html.Action("DownloadsChart","Home")
+</div>
+<div style="height:300px; width:350px; float:left; margin-right:5px">@Html.Action("PackagesChart","Home")
+</div>
+@*<div style="height:300px; width:350px; float:left; margin-top:500px; margin-left:-650px">Stats
+ </div>
+<div style="height:300px; width:350px; float:left; margin-top:500px; margin-left:-3500px">Top 10 sites
+</div>*@
+
+<!-- Show latest tweets about NuGet -->
+ <div class="sidebar_container">       
+		<div class="sidebar">
+     	   <div class="sidebar_item">			             
+                  <script>
+                      new TWTR.Widget({
+                          version: 2,
+                          type: 'search',
+                          search: '#nuget',
+                          interval: 20000,
+                          title: '',
+                          subject: '#nuget',
+                          width: 260,
+                          height: 182,
+                          theme: {
+                              shell: {
+                                  background: '#528CCC',
+                                  color: '#ffffff'
+                              },
+                              tweets: {
+                                  background: '#ffffff',
+                                  color: '#444444',
+                                  links: '#1985b5'
+                              }
+                          },
+                          features: {
+                              scrollbar: false,
+                              loop: true,
+                              live: true,
+                              hashtags: true,
+                              timestamp: true,
+                              avatars: true,
+                              toptweets: true,
+                              behavior: 'default'
+                          }
+                      }).render().start();
+            </script>
+
+          </div> 
+            <br />
+            <br />
+            <div class="sidebar_item" style="width:auto">
+                <h2>      Top 10 Packages       </h2>
+                @Html.Action("TopPackages","Home")                
+            </div>
+        </div>
+ </div>
+ 
+
+
+
+    

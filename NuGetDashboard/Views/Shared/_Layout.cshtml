@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>NuGet Services Monitoring</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js")
+        @Scripts.Render("http://code.highcharts.com/highcharts.js")       
+    </head>
+    <body class="layout_2_1 blue3">
+	<div id="outer_container">
+		<div id="container">
+			<div id="inner_container">
+				<div id="header">
+					<h1>NuGet Services Monitoring</h1>					
+				</div>			
+				<div id="menu">
+				     <ul class="menu">
+						<li id="Home">@Html.ActionLink("Home", "Index", "Home")</li>
+						<li id="Health">@Html.ActionLink("Health", "Index", "PingdomChecks")</li> <!--Pingdom status -->
+					    <li id="QoS">@Html.ActionLink("QoS", "Index", "QoS")</li> <!--Runner status and resource utilization from MDS-->
+						<li id="Trending">@Html.ActionLink("Trending", "Index", "Trending")</li> <!-- package upload and download trends -->
+                        <li id="SupportRequests">@Html.ActionLink("Support Requests", "Index", "SupportRequests")</li>	 <!-- support requests from TFS -->
+					</ul>
+				</div>
+				<div id="content">                                       
+					@RenderBody()
+				</div>			
+			</div>
+		</div>
+	</div>
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+
+   </body>
+</html>
