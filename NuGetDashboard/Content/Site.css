@@ -170,7 +170,7 @@ th, td
 .menu li ul
 {
 	margin: 0.5em 0 0.5em 0.5em;
-	padding: 0;
+	padding: 0; 
 }
 .menu li a, .menu li a:link, .menu li a:visited, .menu li a.current:hover, .menu li a.current:active
 {
@@ -190,6 +190,48 @@ th, td
 }
 
 .menu li a.current:hover, .menu li a.current:active
+{
+	background-color: #f8f8f8;
+	border-left-color: #ddd;
+}
+
+.submenu
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0 0 0.5em;
+}
+.submenu li
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.submenu li ul
+{
+	margin: 0.5em 0 0.5em 0.5em;
+	padding: 0;
+    font-size: small;
+    align-content:flex-end;
+}
+.submenu li a, .submenu li a:link, .submenu li a:visited, .submenu li a.current:hover, .submenu li a.current:active
+{
+	display: block;
+	background-color: #f8f8f8;
+	border-left: 0.2em solid #ddd;
+	line-height: 1.8em;
+	margin-top: 0.5em;
+	padding: 0.5em;
+	text-decoration:none;
+}
+
+.submenu li a:hover, .submenu li a:active, .submenu li a.current, .submenu li a.current:link, .submenu li a.current:visited
+{
+	background-color: #e8e8e8;
+	border-left-color: #01D510;
+}
+
+.submenu li a.current:hover, .submenu li a.current:active
 {
 	background-color: #f8f8f8;
 	border-left-color: #ddd;

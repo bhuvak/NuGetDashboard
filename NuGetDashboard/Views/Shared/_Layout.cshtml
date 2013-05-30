@@ -21,9 +21,19 @@
 				<div id="menu">
 				     <ul class="menu">
 						<li id="Home">@Html.ActionLink("Home", "Index", "Home")</li>
-						<li id="Health">@Html.ActionLink("Health", "Index", "PingdomChecks")</li> <!--Pingdom status -->
+						<li id="Pingdom">@Html.ActionLink("Pingdom", "Index", "PingdomChecks") <!--Pingdom status -->
+                         <ul class="menu">
+                             <li id="Status">@Html.ActionLink("Status", "Index", "PingdomChecks")</li>
+                             <li id="History">@Html.ActionLink("History","PartialMonthlyReport", "PingdomChecks")</li>
+                         </ul>
+                         </li>
 					    <li id="QoS">@Html.ActionLink("QoS", "Index", "QoS")</li> <!--Runner status and resource utilization from MDS-->
-						<li id="Trending">@Html.ActionLink("Trending", "Index", "Trending")</li> <!-- package upload and download trends -->
+						<li id="Trending">@Html.ActionLink("Trending", "Index", "Trending")<!-- package upload and download trends -->
+                         <ul class="menu">
+                             <li id="Stats">@Html.ActionLink("Stats", "Index", "Trending")</li>
+                             <li id="ClientUsage">@Html.ActionLink("ClientUsage","ClientVersionChart", "Trending")</li>
+                         </ul>
+                         </li>
                         <li id="SupportRequests">@Html.ActionLink("Support Requests", "Index", "SupportRequests")</li>	 <!-- support requests from TFS -->
 					</ul>
 				</div>

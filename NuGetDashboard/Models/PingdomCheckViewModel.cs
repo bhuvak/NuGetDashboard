@@ -9,16 +9,16 @@ namespace NuGetDashboard.Models
     /// <summary>
     /// This class represents a check in pingdom
     /// </summary>
-    public class PingdomCheckViewModel
+    public class PingdomStatusViewModel
     {
-        public PingdomCheckViewModel(string name,string status, int lastResponseTime,int lastErrorTime, int avgResponseTime,int totalUpTime)
+        public PingdomStatusViewModel(string name,string status, int lastResponseTime,int lastErrorTime)
         {
             this.Name = name;
             this.Status = status;
             this.LastResponseTime = lastResponseTime;
-            this.LastErrorTime = UnixTimeStampUtility.DateTimeFromUnixTimestampSeconds(lastErrorTime);
-            this.AvgResponseTime = avgResponseTime;
-            this.totalUpTime = Math.Round( ((double)totalUpTime / (UnixTimeStampUtility.GetSecondsFor30Days())) * 100 , 2);
+            this.LastErrorTime = DateTimeUtility.DateTimeFromUnixTimestampSeconds(lastErrorTime);
+           // this.AvgResponseTime = avgResponseTime;
+           // this.totalUpTime = Math.Round( ((double)totalUpTime / (UnixTimeStampUtility.GetSecondsFor30Days())) * 100 , 2);
         }
 
         public string Name;

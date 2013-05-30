@@ -3,13 +3,14 @@
 @using System.Collections.Generic;
 @using System.Linq;
 @using System.Web;
-@model IEnumerable<PingdomCheckViewModel>
+@model IEnumerable<PingdomStatusViewModel>
 
+ <p style="font-family:arial;color:gray;font-size:15px;font-style:italic"> * This page the current status of pingdom checks and their response time throughout the week.</p>
 <table>
     <tbody>
     <tr>
         <th>
-         Pingdom Checks
+         Name
         </th>
         <th>
          Status
@@ -20,14 +21,9 @@
         <th>
          Last Downtime
         </th>
-        <th>
-         Monthly ResponseTime
-        </th>
-        <th>
-         Monthly Uptime
-        </th>
+       
     </tr>
-    @foreach( PingdomCheckViewModel pingdomcheck in @Model)
+    @foreach( PingdomStatusViewModel pingdomcheck in @Model)
     {
         <tr>
             <td>
@@ -41,13 +37,7 @@
             </td>
             <td>
                 @pingdomcheck.LastErrorTime
-            </td>
-            <td>
-                @pingdomcheck.AvgResponseTime ms
-            </td>
-            <td>
-                @pingdomcheck.totalUpTime %
-            </td>
+            </td>           
         </tr>
     }
   </tbody>

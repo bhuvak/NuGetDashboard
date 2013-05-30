@@ -1,6 +1,15 @@
-﻿@using DotNet.Highcharts;
-@model DotNet.Highcharts.Highcharts
-@Scripts.Render("http://code.highcharts.com/highcharts.js")
+﻿<!-- scripts to show the Twitter Widget -->
+<script src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e72e9371502bc94" type="text/javascript"></script>
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>  
 
-@(Model)
+
+<p style="font-family:arial;color:gray;font-size:15px;font-style:italic"> * This page shows the package upload, download and user registration trend for the current month.</p>
+
+<div style="height:300px; width:350px; float:left; margin-right:5px">@Html.Action("DownloadsChart","Trending")
+</div>
+<div style="height:300px; width:350px; float:left; margin-right:5px">@Html.Action("UsersChart","Trending")
+</div>
+<div style="height:300px; width:350px; float:left; margin-right:5px">@Html.Action("PackagesChart","Trending")
+</div>
+
 

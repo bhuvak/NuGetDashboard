@@ -16,7 +16,7 @@ namespace NuGetDashboard
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "PingdomChecks", action = "PartialMonthlyReport", id = UrlParameter.Optional }
             );
         }
     }

@@ -16,6 +16,7 @@ using DotNet.Highcharts.Options;
 using DotNet.Highcharts.Helpers;
 using System.Configuration;
 
+
 namespace NuGetDashboard.Controllers
 {
     /// <summary>
@@ -25,10 +26,11 @@ namespace NuGetDashboard.Controllers
     {
         public ActionResult Index()
         {
-            List<PingdomCheckViewModel> checks = new List<PingdomCheckViewModel>();
+            List<PingdomStatusViewModel> checks = new List<PingdomStatusViewModel>();
             NetworkCredential nc = new NetworkCredential(ConfigurationManager.AppSettings["PingdomUserName"], ConfigurationManager.AppSettings["PingdomPassword"]);
             WebRequest request = WebRequest.Create("https://api.pingdom.com/api/2.0/checks");
             request.Credentials = nc;
+            request.Headers.Add(ConfigurationManager.AppSettings["PingdomAppKey"]);
             request.PreAuthenticate = true;
             request.Method = "GET";
             WebResponse respose = request.GetResponse();
@@ -40,11 +42,37 @@ namespace NuGetDashboard.Controllers
                 {
                     if (o["name"].ToString().Contains("curated"))
                         continue;
-                  Dictionary<string,int> summaryValues = GetCheckSummaryAvgForLastMonth(o["id"], nc);                                   
-                  checks.Add(new PingdomCheckViewModel(o["name"], o["status"], o["lastresponsetime"],o["lasterrortime"],summaryValues["avgresponse"],summaryValues["totalup"]));                  
+                  //Dictionary<string,int> summaryValues = GetCheckSummaryAvgForLastMonth(o["id"], nc);                                   
+                 // checks.Add(new PingdomCheckViewModel(o["name"], o["status"], o["lastresponsetime"],o["lasterrortime"],summaryValues["avgresponse"],summaryValues["totalup"]));                  
+                  checks.Add(new PingdomStatusViewModel(o["name"], o["status"], o["lastresponsetime"], o["lasterrortime"]));                  
                 }
             }            
             return View(checks);
+        }
+
+        public ActionResult PartialMonthlyReport()
+        {
+            string value = Request.Form.Get("Reports");
+            if(string.IsNullOrEmpty(value))
+            {
+                value = DateTimeUtility.GetLastMonthName();
+            }
+            string[] checkNames = new string[] { "feed", "home", "packages" };
+            List<PingdomMonthlyReportViewModel> reports = new List<PingdomMonthlyReportViewModel>();
+            foreach (string check in checkNames)
+            {
+                //Get the response values from pre-created blobs for each check.
+                string blobName = check + value + "MonthlyReport.json";
+                Dictionary<string,string> dict =  BlobStorageService.GetDictFromBlob(blobName);
+                double upTime = Convert.ToDouble(dict["totalup"]);
+                int avgResponse = Convert.ToInt32(dict["avgresponse"]);
+                int Outages = Convert.ToInt32(dict[ "Outages"]);
+                int downTime = Convert.ToInt32(dict["totaldown"]);            
+                reports.Add(new PingdomMonthlyReportViewModel(check,upTime,downTime,Outages,avgResponse,value));
+
+            }
+            ViewBag.SelectedValue = value;
+            return View(reports);
         }
 
         //Returns the chart for Average response for the last week
@@ -74,33 +102,35 @@ namespace NuGetDashboard.Controllers
             return PartialView(chart);
         }
 
+
         #region PrivateMethods
 
-        private static Dictionary<string, int> GetCheckSummaryAvgForLastMonth(int checkId, NetworkCredential nc)
-        {
-            //Get the from to values based on UNIX time stamp.
-            long currentTime = UnixTimeStampUtility.GetCurrentUnixTimestampSeconds();
-            long lastMonth = UnixTimeStampUtility.GetLastMonthUnixTimestampSeconds();
-            WebRequest request = WebRequest.Create(string.Format("https://api.pingdom.com/api/2.0/summary.average/{0}?includeuptime=true&from={1}&to={2}", checkId, lastMonth, currentTime));
-            request.Credentials = nc;
-            request.PreAuthenticate = true;
-            request.Method = "GET";
-            Dictionary<string, int> summaryValues = new Dictionary<string, int>();
-            WebResponse respose = request.GetResponse();
-            using (var reader = new StreamReader(respose.GetResponseStream()))
-            {
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                var summaryObject = js.Deserialize<dynamic>(reader.ReadToEnd());
-                foreach (var summary in summaryObject["summary"])
-                {
-                    foreach (var status in summary.Value)
-                    {
-                        summaryValues.Add(status.Key, status.Value);
-                    }
-                }
-            }
-            return summaryValues;
-        }
+        //private static Dictionary<string, int> GetCheckSummaryAvgForLastMonth(int checkId, NetworkCredential nc)
+        //{
+        //    //Get the from to values based on UNIX time stamp.
+        //    long currentTime = DateTimeUtility.GetCurrentUnixTimestampSeconds();
+        //    long lastMonth = DateTimeUtility.GetLastMonthUnixTimestampSeconds();
+        //    WebRequest request = WebRequest.Create(string.Format("https://api.pingdom.com/api/2.0/summary.average/{0}?includeuptime=true&from={1}&to={2}", checkId, lastMonth, currentTime));
+        //    request.Credentials = nc;
+        //    request.Headers.Add(ConfigurationManager.AppSettings["PingdomAppKey"]);
+        //    request.PreAuthenticate = true;
+        //    request.Method = "GET";
+        //    Dictionary<string, int> summaryValues = new Dictionary<string, int>();
+        //    WebResponse respose = request.GetResponse();
+        //    using (var reader = new StreamReader(respose.GetResponseStream()))
+        //    {
+        //        JavaScriptSerializer js = new JavaScriptSerializer();
+        //        var summaryObject = js.Deserialize<dynamic>(reader.ReadToEnd());
+        //        foreach (var summary in summaryObject["summary"])
+        //        {
+        //            foreach (var status in summary.Value)
+        //            {
+        //                summaryValues.Add(status.Key, status.Value);
+        //            }
+        //        }
+        //    }
+        //    return summaryValues;
+        //}
 
         #endregion PrivateMethods
 
